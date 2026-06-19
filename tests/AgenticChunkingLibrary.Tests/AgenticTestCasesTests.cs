@@ -211,7 +211,7 @@ namespace AgenticChunkingLibrary.Tests
         }
 
         [Fact]
-        public void ParsePropositions_FourItemArrayWithFencesAndDoubledQuotes_ReturnsAllFour()
+        public void ParsePropositions_FourItemArray_ReturnsAllFour()
         {
             string raw = "```json\n" +
                          "[\n" +
@@ -260,6 +260,9 @@ namespace AgenticChunkingLibrary.Tests
             Assert.Equal(tc.ExpectedGroupingOutput.Themes![0], response.Chunks[0].ThematicCategory);
             Assert.Equal("TC-001", response.Chunks[0].DocumentId);
             Assert.Equal("TC-001-0001", response.Chunks[0].ChunkId);
+            Assert.Equal(1, response.Chunks[0].PropositionCount);
+            Assert.Contains("Kubernetes is a container orchestration platform",
+                response.Chunks[0].MergedContent);
         }
 
         [Fact]
