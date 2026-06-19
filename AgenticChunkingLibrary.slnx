@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/AgenticChunkingLibrary/AgenticChunkingLibrary.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/AgenticChunkingLibrary.Tests/AgenticChunkingLibrary.Tests.csproj" />
+  </Folder>
+</Solution>

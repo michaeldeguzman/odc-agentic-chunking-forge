@@ -1,0 +1,19 @@
+# Build outputs
+bin/
+obj/
+publish/
+
+# Test results
+TestResults/
+
+# Visual Studio / Rider
+.vs/
+.idea/
+*.user
+*.suo
+
+# macOS
+.DS_Store
+
+# NuGet
+*.nupkg
