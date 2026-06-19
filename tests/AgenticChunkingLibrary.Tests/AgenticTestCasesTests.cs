@@ -132,6 +132,115 @@ namespace AgenticChunkingLibrary.Tests
         }
 
         // ============================================================
+        // PARSEPROPOSITIONS TESTS
+        // These tests verify that raw LLM extraction responses are
+        // cleaned and parsed correctly before accumulation.
+        // ============================================================
+
+        [Fact]
+        public void ParsePropositions_ValidJsonArray_ReturnsCorrectList()
+        {
+            string json = """["Kubernetes is a container orchestration platform.", "Kubernetes automates deployment of containerised applications."]""";
+
+            var result = _actions.ParsePropositions(json);
+
+            Assert.Equal(2, result.Count);
+            Assert.Equal("Kubernetes is a container orchestration platform.", result[0]);
+        }
+
+        [Fact]
+        public void ParsePropositions_EmptyString_ReturnsEmptyList()
+        {
+            var result = _actions.ParsePropositions(string.Empty);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void ParsePropositions_NullInput_ReturnsEmptyList()
+        {
+            var result = _actions.ParsePropositions(null!);
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void ParsePropositions_MalformedJson_ReturnsEmptyListWithoutThrowing()
+        {
+            var result = _actions.ParsePropositions("this is not json");
+            Assert.Empty(result);
+        }
+
+        [Fact]
+        public void ParsePropositions_MarkdownJsonFences_StrippedBeforeParsing()
+        {
+            string raw = "```json\n" +
+                         "[\"Kubernetes is a container orchestration platform.\", " +
+                         "\"Kubernetes automates deployment of containerised applications.\"]\n" +
+                         "```";
+
+            var result = _actions.ParsePropositions(raw);
+
+            Assert.Equal(2, result.Count);
+            Assert.Equal("Kubernetes is a container orchestration platform.", result[0]);
+        }
+
+        [Fact]
+        public void ParsePropositions_MarkdownFencesWithoutLanguageTag_StrippedBeforeParsing()
+        {
+            string raw = "```\n[\"Kubernetes is a platform.\"]\n```";
+
+            var result = _actions.ParsePropositions(raw);
+
+            Assert.Single(result);
+            Assert.Equal("Kubernetes is a platform.", result[0]);
+        }
+
+        [Fact]
+        public void ParsePropositions_DoubledInnerQuotes_NormalisedToSingleQuotes()
+        {
+            string raw = """
+                [
+                  ""Kubernetes is a container orchestration platform."",
+                  ""Kubernetes automates the deployment of containerised applications.""
+                ]
+                """;
+
+            var result = _actions.ParsePropositions(raw);
+
+            Assert.Equal(2, result.Count);
+            Assert.DoesNotContain(result, p => p.StartsWith("\"") || p.EndsWith("\""));
+        }
+
+        [Fact]
+        public void ParsePropositions_FourItemArrayWithFencesAndDoubledQuotes_ReturnsAllFour()
+        {
+            string raw = "```json\n" +
+                         "[\n" +
+                         "  \"\"Kubernetes is a container orchestration platform.\"\",\n" +
+                         "  \"\"Kubernetes automates the deployment of containerised applications across a cluster of machines.\"\",\n" +
+                         "  \"\"Kubernetes automates the scaling of containerised applications across a cluster of machines.\"\",\n" +
+                         "  \"\"Kubernetes automates the management of containerised applications across a cluster of machines.\"\"\n" +
+                         "]\n" +
+                         "```";
+
+            var result = _actions.ParsePropositions(raw);
+
+            Assert.Equal(4, result.Count);
+            Assert.All(result, p =>
+            {
+                Assert.False(string.IsNullOrWhiteSpace(p));
+                Assert.DoesNotContain("```", p);
+            });
+        }
+
+        [Fact]
+        public void ParsePropositions_JsonObjectNotArray_ReturnsEmptyList()
+        {
+            string raw = """{"category": "Cloud", "facts": ["Fact one."]}""";
+            var result = _actions.ParsePropositions(raw);
+            Assert.Empty(result);
+        }
+
+        // ============================================================
         // NORMALISEAGENTICOUTPUT TESTS
         // These tests verify JSON parsing and struct mapping.
         // Synthetic grouping responses are built from expectedGroupingOutput
