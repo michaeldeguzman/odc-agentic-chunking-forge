@@ -11,7 +11,14 @@ namespace AgenticChunkingLibrary.Helpers
             var empty = new List<string>();
             if (string.IsNullOrWhiteSpace(rawJson)) return empty;
 
-            string cleaned = StripFences(rawJson.Trim());
+            string trimmed = rawJson.Trim();
+
+            // LLM sometimes wraps the entire response in outer quotes before the fence.
+            // Strip them so StripFences can see the backticks.
+            if (trimmed.StartsWith("\"") && trimmed.EndsWith("\"") && trimmed.Length >= 2)
+                trimmed = trimmed.Substring(1, trimmed.Length - 2);
+
+            string cleaned = StripFences(trimmed);
 
             // Try as-is first; if that fails due to doubled quotes (""text""), normalise and retry.
             return TryParseArray(cleaned)

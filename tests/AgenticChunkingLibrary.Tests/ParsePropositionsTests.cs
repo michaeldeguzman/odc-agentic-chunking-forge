@@ -117,6 +117,19 @@ namespace AgenticChunkingLibrary.Tests
         }
 
         [Fact]
+        public void OuterQuotesWrappingFencedArray_AreStrippedBeforeParsing()
+        {
+            // Exact string reported by the user: the whole response is wrapped in
+            // outer double-quotes before the ```json fence. First char is `"`.
+            string input = "\"```json\n[\n  \"\"Kubernetes is a container orchestration platform.\"\",\n  \"\"Kubernetes automates the deployment of containerised applications across a cluster of machines.\"\",\n  \"\"Kubernetes automates the scaling of containerised applications across a cluster of machines.\"\",\n  \"\"Kubernetes automates the management of containerised applications across a cluster of machines.\"\"\n]\n```\"";
+
+            var result = _sut.ParsePropositions(input);
+
+            Assert.Equal(4, result.Count);
+            Assert.Equal("Kubernetes is a container orchestration platform.", result[0]);
+        }
+
+        [Fact]
         public void PropositionsWithEscapedCharacters_AreHandledCorrectly()
         {
             string input = "[\"He said \\\"hello\\\" to the group.\", \"Cost was \\u00a3100.\"]";
