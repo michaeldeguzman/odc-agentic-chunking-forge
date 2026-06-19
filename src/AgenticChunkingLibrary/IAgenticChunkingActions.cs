@@ -18,6 +18,12 @@ namespace AgenticChunkingLibrary
             int maxTokensPerBatch);
 
         [OSAction(
+            Description = "Parses the raw JSON response from an extraction AI Gateway call into a clean list of proposition strings. Handles markdown code fences, escaped inner quotes, and malformed JSON safely. Call this after each extraction batch call and accumulate the results. Returns an empty list if the response cannot be parsed.")]
+        List<string> ParsePropositions(
+            [OSParameter(Description = "The raw string returned by the extraction LLM. Expected format: a JSON array of strings. Markdown code fences are stripped automatically.")]
+            string rawExtractionJson);
+
+        [OSAction(
             Description = "Parses the raw JSON response from the thematic grouping LLM call and maps it to ODC-compliant AgenticChunk structs. Call this after the grouping AI Gateway call completes.")]
         AgenticResponse NormaliseAgenticOutput(
             [OSParameter(Description = "The raw JSON string returned by the grouping LLM. Expected format: [{category: string, facts: string[]}]")]

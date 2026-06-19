@@ -81,6 +81,11 @@ namespace AgenticChunkingLibrary
             return batches;
         }
 
+        public List<string> ParsePropositions(string rawExtractionJson)
+        {
+            return PropositionParser.Parse(rawExtractionJson);
+        }
+
         public AgenticResponse NormaliseAgenticOutput(string rawGroupingJson, string documentId)
         {
             var response = new AgenticResponse
