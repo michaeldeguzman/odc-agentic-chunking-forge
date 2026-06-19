@@ -12,33 +12,43 @@
     ]
   },
   "testCases": [
-
     {
       "id": "TC-001",
       "name": "Extraction Baseline - Clean Single Sentence",
       "category": "Extraction Phase",
-      "description": "A single clean sentence with no compound structure and no pronouns. Tests that the extraction prompt passes through a well-formed proposition without modification.",
+      "description": "A single genuinely atomic sentence containing exactly one fact, no coordinated verbs, no compound structure, and no pronouns. Tests that the extraction prompt passes through a well-formed proposition without modification or splitting.",
       "input": {
         "chunks": [
           {
-            "text": "Kubernetes is a container orchestration platform that automates the deployment, scaling, and management of containerised applications across a cluster of machines.",
-            "metadata": { "chunkId": "TC001-0001", "documentId": "TC-001", "tokenEstimate": 38, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "text": "Kubernetes is an open-source container orchestration platform originally developed by Google.",
+            "metadata": {
+              "chunkId": "TC001-0001",
+              "documentId": "TC-001",
+              "tokenEstimate": 16,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
       "expectedExtractionOutput": {
         "propositionCount": 1,
         "propositions": [
-          "Kubernetes is a container orchestration platform that automates the deployment, scaling, and management of containerised applications across a cluster of machines."
+          "Kubernetes is an open-source container orchestration platform originally developed by Google."
         ]
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Cloud Infrastructure"]
+        "themes": [
+          "Cloud Infrastructure"
+        ]
       },
-      "passCriteria": "Proposition count is 1. Text is unchanged. No splitting, no pronoun resolution required."
+      "passCriteria": "Proposition count is 1. Text is unchanged or differs only in trivial whitespace normalisation. No splitting occurred. No pronoun resolution required. The sentence contains one fact, one subject, one verb, and no coordinated clauses."
     },
-
     {
       "id": "TC-002",
       "name": "Extraction - Compound Sentence Joined by And",
@@ -48,7 +58,17 @@
         "chunks": [
           {
             "text": "Lithium-ion batteries store energy through the movement of lithium ions between a cathode and an anode, and this electrochemical process degrades over time as electrode materials expand and contract during charge cycles.",
-            "metadata": { "chunkId": "TC002-0001", "documentId": "TC-002", "tokenEstimate": 48, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC002-0001",
+              "documentId": "TC-002",
+              "tokenEstimate": 48,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -61,11 +81,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "Proposition count is 2. Each proposition is self-contained and readable in isolation. No pronouns remain unresolved."
     },
-
     {
       "id": "TC-003",
       "name": "Extraction - Compound Sentence Joined by Colon",
@@ -75,7 +96,17 @@
         "chunks": [
           {
             "text": "The human pancreas serves a dual function: it produces digestive enzymes that break down proteins and fats in the small intestine, and it secretes the hormones insulin and glucagon to regulate blood sugar levels.",
-            "metadata": { "chunkId": "TC003-0001", "documentId": "TC-003", "tokenEstimate": 46, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC003-0001",
+              "documentId": "TC-003",
+              "tokenEstimate": 46,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -88,11 +119,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Human Metabolism"]
+        "themes": [
+          "Human Metabolism"
+        ]
       },
       "passCriteria": "Proposition count is 2. Both pronouns 'it' are resolved to 'the human pancreas'. Colon correctly treated as a proposition boundary."
     },
-
     {
       "id": "TC-004",
       "name": "Extraction - Pronoun It Referring to Named Subject",
@@ -102,7 +134,17 @@
         "chunks": [
           {
             "text": "The human liver is the largest internal organ, and it performs over five hundred distinct biochemical functions including detoxification, protein synthesis, and glycogen storage.",
-            "metadata": { "chunkId": "TC004-0001", "documentId": "TC-004", "tokenEstimate": 40, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC004-0001",
+              "documentId": "TC-004",
+              "tokenEstimate": 40,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -115,11 +157,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Human Metabolism"]
+        "themes": [
+          "Human Metabolism"
+        ]
       },
       "passCriteria": "Proposition count is 2. Pronoun 'it' is replaced with 'the human liver' in the second proposition. No pronoun remains in any output proposition."
     },
-
     {
       "id": "TC-005",
       "name": "Extraction - Pronoun He Referring to Named Person",
@@ -129,7 +172,17 @@
         "chunks": [
           {
             "text": "Leonardo da Vinci was both a painter and an engineer, and he filled private notebooks with designs for flying machines, hydraulic systems, and anatomical studies that were not published in his lifetime.",
-            "metadata": { "chunkId": "TC005-0001", "documentId": "TC-005", "tokenEstimate": 44, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC005-0001",
+              "documentId": "TC-005",
+              "tokenEstimate": 44,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -142,11 +195,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Italian Renaissance"]
+        "themes": [
+          "Italian Renaissance"
+        ]
       },
       "passCriteria": "Proposition count is 2. Pronouns 'he' and 'his' are both replaced with 'Leonardo da Vinci'. No pronoun remains in any output proposition."
     },
-
     {
       "id": "TC-006",
       "name": "Extraction - Pronoun They Referring to Plural Named Subject",
@@ -156,7 +210,17 @@
         "chunks": [
           {
             "text": "Genome-wide association studies scan the DNA of thousands of individuals to identify disease-linked variants, and they have identified over ten thousand such associations since the first study was published in 2005.",
-            "metadata": { "chunkId": "TC006-0001", "documentId": "TC-006", "tokenEstimate": 44, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC006-0001",
+              "documentId": "TC-006",
+              "tokenEstimate": 44,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -169,11 +233,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Genomics"]
+        "themes": [
+          "Genomics"
+        ]
       },
       "passCriteria": "Proposition count is 2. Pronoun 'they' is replaced with 'Genome-wide association studies'. Plural agreement is maintained."
     },
-
     {
       "id": "TC-007",
       "name": "Extraction - Compound Sentence with Embedded Pronoun",
@@ -183,7 +248,17 @@
         "chunks": [
           {
             "text": "CRISPR-Cas9 is a gene editing tool derived from a bacterial immune defence mechanism, and it works by using a guide RNA to direct the Cas9 protein to a precise location in the genome where it makes a targeted cut.",
-            "metadata": { "chunkId": "TC007-0001", "documentId": "TC-007", "tokenEstimate": 48, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC007-0001",
+              "documentId": "TC-007",
+              "tokenEstimate": 48,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -196,11 +271,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Genomics"]
+        "themes": [
+          "Genomics"
+        ]
       },
       "passCriteria": "Proposition count is 2. Both instances of 'it' are replaced with 'CRISPR-Cas9'. Sentence splits cleanly at the conjunction."
     },
-
     {
       "id": "TC-008",
       "name": "Extraction - Three Facts in One Sentence",
@@ -210,7 +286,17 @@
         "chunks": [
           {
             "text": "The mitochondria generate adenosine triphosphate through oxidative phosphorylation, the efficiency of this process declines with age as mitochondrial DNA accumulates mutations, and antioxidants have been proposed as a mechanism to slow this decline.",
-            "metadata": { "chunkId": "TC008-0001", "documentId": "TC-008", "tokenEstimate": 50, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC008-0001",
+              "documentId": "TC-008",
+              "tokenEstimate": 50,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -224,11 +310,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Human Metabolism"]
+        "themes": [
+          "Human Metabolism"
+        ]
       },
       "passCriteria": "Proposition count is 3. Each proposition is fully self-contained. The referent of 'this decline' in proposition 3 is made explicit."
     },
-
     {
       "id": "TC-009",
       "name": "Extraction - Relative Clause Containing Second Fact",
@@ -238,7 +325,17 @@
         "chunks": [
           {
             "text": "Polymerase chain reaction is a laboratory technique that amplifies a specific segment of DNA by cycling the sample through a series of heating and cooling steps, and it was invented by Kary Mullis in 1983 for which he received the Nobel Prize in Chemistry.",
-            "metadata": { "chunkId": "TC009-0001", "documentId": "TC-009", "tokenEstimate": 52, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC009-0001",
+              "documentId": "TC-009",
+              "tokenEstimate": 52,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -252,11 +349,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Genomics"]
+        "themes": [
+          "Genomics"
+        ]
       },
       "passCriteria": "Proposition count is 3. Pronoun 'it' is resolved to 'polymerase chain reaction'. The Nobel Prize fact is separated as a distinct proposition about Kary Mullis."
     },
-
     {
       "id": "TC-010",
       "name": "Extraction - Technical Acronym Referenced as Pronoun",
@@ -266,7 +364,17 @@
         "chunks": [
           {
             "text": "Infrastructure as code, commonly abbreviated as IaC, is a practice in which cloud resources are defined in machine-readable configuration files, and it allows engineering teams to version-control, review, and audit infrastructure changes using standard software development workflows.",
-            "metadata": { "chunkId": "TC010-0001", "documentId": "TC-010", "tokenEstimate": 54, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC010-0001",
+              "documentId": "TC-010",
+              "tokenEstimate": 54,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -279,11 +387,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Cloud Infrastructure"]
+        "themes": [
+          "Cloud Infrastructure"
+        ]
       },
       "passCriteria": "Proposition count is 2. Pronoun 'it' is resolved to 'Infrastructure as code' not to the acronym 'IaC'. The parenthetical abbreviation note is dropped from the output propositions."
     },
-
     {
       "id": "TC-011",
       "name": "Grouping - Two Same-Domain Chunks Consolidated",
@@ -293,11 +402,31 @@
         "chunks": [
           {
             "text": "Solid-state batteries replace the liquid electrolyte found in conventional lithium-ion cells with a ceramic or polymer material, which eliminates the fire risk associated with electrolyte leakage.",
-            "metadata": { "chunkId": "TC011-0001", "documentId": "TC-011", "tokenEstimate": 44, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.66, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC011-0001",
+              "documentId": "TC-011",
+              "tokenEstimate": 44,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.66,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The energy density of a battery cell is measured in watt-hours per kilogram, and current lithium-ion technology achieves between 150 and 300 watt-hours per kilogram depending on the cathode chemistry used.",
-            "metadata": { "chunkId": "TC011-0002", "documentId": "TC-011", "tokenEstimate": 46, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC011-0002",
+              "documentId": "TC-011",
+              "tokenEstimate": 46,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -311,11 +440,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "Output chunk count is 1. All propositions are assigned to Battery Chemistry. The two Level 4 chunks are consolidated despite originating as separate chunks."
     },
-
     {
       "id": "TC-012",
       "name": "Grouping - Three Same-Domain Chunks Consolidated",
@@ -325,15 +455,45 @@
         "chunks": [
           {
             "text": "Cloud computing infrastructure relies on distributed server farms that are geographically separated to ensure redundancy. Major providers maintain at least three availability zones per region to guarantee uptime above 99.9 percent.",
-            "metadata": { "chunkId": "TC012-0001", "documentId": "TC-012", "tokenEstimate": 52, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.68, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC012-0001",
+              "documentId": "TC-012",
+              "tokenEstimate": 52,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.68,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Server virtualisation allows a single physical machine to run multiple isolated operating systems simultaneously, and hypervisor software manages the allocation of CPU, memory, and storage resources between each virtual machine.",
-            "metadata": { "chunkId": "TC012-0002", "documentId": "TC-012", "tokenEstimate": 46, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.71, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC012-0002",
+              "documentId": "TC-012",
+              "tokenEstimate": 46,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.71,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Content delivery networks cache static web assets at edge nodes located close to end users, which reduces the round-trip latency for image and script delivery to a fraction of what a single-origin server would achieve.",
-            "metadata": { "chunkId": "TC012-0003", "documentId": "TC-012", "tokenEstimate": 46, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC012-0003",
+              "documentId": "TC-012",
+              "tokenEstimate": 46,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -350,11 +510,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Cloud Infrastructure"]
+        "themes": [
+          "Cloud Infrastructure"
+        ]
       },
       "passCriteria": "Output chunk count is 1. All six propositions are assigned to Cloud Infrastructure. Three Level 4 chunks are consolidated into one."
     },
-
     {
       "id": "TC-013",
       "name": "Grouping - Four Same-Domain Chunks Scattered Across Document",
@@ -364,19 +525,59 @@
         "chunks": [
           {
             "text": "Lithium-ion batteries store energy through the movement of lithium ions between a cathode and an anode. This electrochemical process degrades over time as the electrode materials expand and contract during charge cycles.",
-            "metadata": { "chunkId": "TC013-0001", "documentId": "TC-013", "tokenEstimate": 54, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.72, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC013-0001",
+              "documentId": "TC-013",
+              "tokenEstimate": 54,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.72,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Solid-state batteries replace the liquid electrolyte found in conventional lithium-ion cells with a ceramic or polymer material, which eliminates the fire risk associated with electrolyte leakage.",
-            "metadata": { "chunkId": "TC013-0002", "documentId": "TC-013", "tokenEstimate": 44, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.66, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC013-0002",
+              "documentId": "TC-013",
+              "tokenEstimate": 44,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.66,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The cathode material in a lithium-ion battery is typically a lithium metal oxide such as lithium cobalt oxide or lithium iron phosphate, and its crystal structure determines the cell's energy density and thermal stability. Nickel manganese cobalt cathodes offer a higher energy density than lithium iron phosphate cells but are more sensitive to thermal runaway if overcharged or physically punctured.",
-            "metadata": { "chunkId": "TC013-0003", "documentId": "TC-013", "tokenEstimate": 92, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.74, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC013-0003",
+              "documentId": "TC-013",
+              "tokenEstimate": 92,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.74,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The energy density of a battery cell is measured in watt-hours per kilogram, and current lithium-ion technology achieves between 150 and 300 watt-hours per kilogram depending on the cathode chemistry used.",
-            "metadata": { "chunkId": "TC013-0004", "documentId": "TC-013", "tokenEstimate": 46, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC013-0004",
+              "documentId": "TC-013",
+              "tokenEstimate": 46,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -395,11 +596,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "Output chunk count is 1. All eight propositions are assigned to Battery Chemistry. Four scattered Level 4 chunks are consolidated. Pronoun 'its' in chunk TC013-0003 is resolved to 'the cathode material's'."
     },
-
     {
       "id": "TC-014",
       "name": "Grouping - Mixed Domain Chunk Must Separate",
@@ -409,7 +611,17 @@
         "chunks": [
           {
             "text": "The mitochondria within each human cell generate adenosine triphosphate through a process called oxidative phosphorylation, and the efficiency of this process declines with age as mitochondrial DNA accumulates mutations. The human small intestine is approximately six metres long and absorbs the majority of nutrients from digested food through finger-like projections called villi, which dramatically increase the absorptive surface area. Polymerase chain reaction is a laboratory technique that amplifies a specific segment of DNA by cycling the sample through a series of heating and cooling steps, and it was invented by Kary Mullis in 1983. DNA methylation is an epigenetic modification in which a methyl group is added to a cytosine base in the genome, and it plays a role in regulating gene expression without altering the underlying DNA sequence itself.",
-            "metadata": { "chunkId": "TC014-0001", "documentId": "TC-014", "tokenEstimate": 164, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 4, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC014-0001",
+              "documentId": "TC-014",
+              "tokenEstimate": 164,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 4,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -428,11 +640,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Human Metabolism", "Genomics"]
+        "themes": [
+          "Human Metabolism",
+          "Genomics"
+        ]
       },
       "passCriteria": "Output chunk count is 2. Propositions 1 through 4 are assigned to Human Metabolism. Propositions 5 through 8 are assigned to Genomics. A single Level 4 chunk is correctly separated into two thematic chunks."
     },
-
     {
       "id": "TC-015",
       "name": "Grouping - Clean Single-Domain Chunks Pass Through Unchanged",
@@ -442,15 +656,45 @@
         "chunks": [
           {
             "text": "Filippo Brunelleschi designed the dome of Florence Cathedral without the use of temporary wooden centring, relying instead on a herringbone brick pattern that allowed each course of bricks to be self-supporting during construction.",
-            "metadata": { "chunkId": "TC015-0001", "documentId": "TC-015", "tokenEstimate": 48, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.69, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC015-0001",
+              "documentId": "TC-015",
+              "tokenEstimate": 48,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.69,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Urban planners use a metric called the floor area ratio to regulate building density, and cities that adopt high floor area ratios near transit stations typically see reduced car dependency within a decade.",
-            "metadata": { "chunkId": "TC015-0002", "documentId": "TC-015", "tokenEstimate": 44, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.73, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC015-0002",
+              "documentId": "TC-015",
+              "tokenEstimate": 44,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.73,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Genome-wide association studies scan the DNA of thousands of individuals to identify single nucleotide polymorphisms that correlate with a particular disease or trait.",
-            "metadata": { "chunkId": "TC015-0003", "documentId": "TC-015", "tokenEstimate": 36, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC015-0003",
+              "documentId": "TC-015",
+              "tokenEstimate": 36,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -465,11 +709,14 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 3,
-        "themes": ["Italian Renaissance", "Urban Planning", "Genomics"]
+        "themes": [
+          "Italian Renaissance",
+          "Urban Planning",
+          "Genomics"
+        ]
       },
       "passCriteria": "Output chunk count is 3. No consolidation occurs. No splitting occurs. Each input chunk maps to exactly one output chunk with the correct thematic label."
     },
-
     {
       "id": "TC-016",
       "name": "Grouping - Adjacent Chunks from Different Domains Must Not Bleed",
@@ -479,11 +726,31 @@
         "chunks": [
           {
             "text": "Michelangelo painted the Sistine Chapel ceiling between 1508 and 1512 under the patronage of Pope Julius II, and the work depicts scenes from the Book of Genesis including the creation of Adam.",
-            "metadata": { "chunkId": "TC016-0001", "documentId": "TC-016", "tokenEstimate": 48, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.70, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC016-0001",
+              "documentId": "TC-016",
+              "tokenEstimate": 48,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.7,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Mixed-use zoning permits residential, retail, and office uses to coexist within the same block or building, and it is associated with higher pedestrian activity and lower vehicle kilometres travelled compared to single-use suburban zoning.",
-            "metadata": { "chunkId": "TC016-0002", "documentId": "TC-016", "tokenEstimate": 46, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC016-0002",
+              "documentId": "TC-016",
+              "tokenEstimate": 46,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -497,11 +764,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Italian Renaissance", "Urban Planning"]
+        "themes": [
+          "Italian Renaissance",
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Output chunk count is 2. No Renaissance proposition appears in the Urban Planning chunk and vice versa. Positional adjacency does not cause thematic bleeding."
     },
-
     {
       "id": "TC-017",
       "name": "Grouping - Single Proposition Domain",
@@ -511,11 +780,31 @@
         "chunks": [
           {
             "text": "The sixteen-hour city concept proposes that urban districts should be activated for at least sixteen hours per day through a mix of uses and programming rather than emptying after business hours.",
-            "metadata": { "chunkId": "TC017-0001", "documentId": "TC-017", "tokenEstimate": 42, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.71, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC017-0001",
+              "documentId": "TC-017",
+              "tokenEstimate": 42,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.71,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Raphael completed the School of Athens fresco in the Apostolic Palace of the Vatican between 1509 and 1511, and it depicts an imagined gathering of ancient Greek philosophers including Plato and Aristotle in a grand classical architectural setting.",
-            "metadata": { "chunkId": "TC017-0002", "documentId": "TC-017", "tokenEstimate": 52, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC017-0002",
+              "documentId": "TC-017",
+              "tokenEstimate": 52,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -529,11 +818,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Urban Planning", "Italian Renaissance"]
+        "themes": [
+          "Urban Planning",
+          "Italian Renaissance"
+        ]
       },
       "passCriteria": "Output chunk count is 2. The single Urban Planning proposition receives its own chunk. It is not merged into Italian Renaissance despite both involving historical or cultural content."
     },
-
     {
       "id": "TC-018",
       "name": "Grouping - Overlapping Vocabulary Across Domains",
@@ -543,11 +834,31 @@
         "chunks": [
           {
             "text": "Kubernetes manages containerised applications across a cluster of machines by scheduling workloads onto nodes based on available CPU and memory resources.",
-            "metadata": { "chunkId": "TC018-0001", "documentId": "TC-018", "tokenEstimate": 36, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.67, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC018-0001",
+              "documentId": "TC-018",
+              "tokenEstimate": 36,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.67,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "DNA sequencing determines the precise order of nucleotides within a DNA molecule, and next-generation sequencing platforms can process billions of short sequence reads in parallel across a single run.",
-            "metadata": { "chunkId": "TC018-0002", "documentId": "TC-018", "tokenEstimate": 42, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC018-0002",
+              "documentId": "TC-018",
+              "tokenEstimate": 42,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -561,11 +872,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Cloud Infrastructure", "Genomics"]
+        "themes": [
+          "Cloud Infrastructure",
+          "Genomics"
+        ]
       },
       "passCriteria": "Output chunk count is 2. 'Cluster' and 'node' in the Cloud Infrastructure context are correctly separated from 'sequence' in the Genomics context. Vocabulary overlap does not cause incorrect merging."
     },
-
     {
       "id": "TC-019",
       "name": "Grouping - All Sentences Are Definitions",
@@ -575,11 +888,31 @@
         "chunks": [
           {
             "text": "A hypervisor is software that creates and manages virtual machines by abstracting the underlying hardware resources. A container is a lightweight, portable unit of software that packages an application and its dependencies into a single executable environment.",
-            "metadata": { "chunkId": "TC019-0001", "documentId": "TC-019", "tokenEstimate": 50, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.65, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC019-0001",
+              "documentId": "TC-019",
+              "tokenEstimate": 50,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.65,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "An allele is one of two or more versions of a gene that can exist at a given chromosomal location. A phenotype is the observable physical or biochemical characteristics of an organism resulting from the interaction of its genotype and environment.",
-            "metadata": { "chunkId": "TC019-0002", "documentId": "TC-019", "tokenEstimate": 50, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC019-0002",
+              "documentId": "TC-019",
+              "tokenEstimate": 50,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -594,11 +927,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Cloud Infrastructure", "Genomics"]
+        "themes": [
+          "Cloud Infrastructure",
+          "Genomics"
+        ]
       },
       "passCriteria": "Output chunk count is 2. Definitional sentence structure does not cause incorrect merging. Propositions 1 and 2 are assigned to Cloud Infrastructure. Propositions 3 and 4 are assigned to Genomics."
     },
-
     {
       "id": "TC-020",
       "name": "Grouping - Proposition Plausibly Belonging to Two Domains",
@@ -608,15 +943,45 @@
         "chunks": [
           {
             "text": "Bioinformatics pipelines process raw genome sequencing data using distributed computing clusters, applying quality filters, alignment algorithms, and variant callers across hundreds of parallel compute nodes.",
-            "metadata": { "chunkId": "TC020-0001", "documentId": "TC-020", "tokenEstimate": 40, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.69, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC020-0001",
+              "documentId": "TC-020",
+              "tokenEstimate": 40,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.69,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Kubernetes is a container orchestration platform that automates the deployment and scaling of containerised applications across a cluster of machines.",
-            "metadata": { "chunkId": "TC020-0002", "documentId": "TC-020", "tokenEstimate": 34, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.72, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC020-0002",
+              "documentId": "TC-020",
+              "tokenEstimate": 34,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.72,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Whole genome sequencing produces approximately 200 gigabytes of raw data per human sample, and storing and processing this volume at scale requires purpose-built cloud storage and compute infrastructure.",
-            "metadata": { "chunkId": "TC020-0003", "documentId": "TC-020", "tokenEstimate": 42, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC020-0003",
+              "documentId": "TC-020",
+              "tokenEstimate": 42,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -631,12 +996,14 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Genomics", "Cloud Infrastructure"],
+        "themes": [
+          "Genomics",
+          "Cloud Infrastructure"
+        ],
         "ambiguousPropositionNote": "Proposition 1 (bioinformatics pipelines) may be assigned to either Genomics or Cloud Infrastructure. Either assignment is acceptable. The key pass criterion is that it appears in exactly one chunk, not both."
       },
       "passCriteria": "Output chunk count is 2. The bioinformatics proposition appears in exactly one chunk. No proposition is duplicated across two chunks."
     },
-
     {
       "id": "TC-021",
       "name": "Edge Case - Single Chunk Single Sentence",
@@ -646,7 +1013,17 @@
         "chunks": [
           {
             "text": "The floor area ratio is a measure of the total floor area of a building relative to the size of the land parcel on which it stands.",
-            "metadata": { "chunkId": "TC021-0001", "documentId": "TC-021", "tokenEstimate": 34, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC021-0001",
+              "documentId": "TC-021",
+              "tokenEstimate": 34,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -658,11 +1035,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Urban Planning"]
+        "themes": [
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Pipeline completes without error. Proposition count is 1. Chunk count is 1. No null reference errors or empty responses."
     },
-
     {
       "id": "TC-022",
       "name": "Edge Case - Single Chunk Ten Sentences Same Domain",
@@ -672,7 +1050,17 @@
         "chunks": [
           {
             "text": "Lithium-ion batteries power most consumer electronics including smartphones, laptops, and electric vehicles. The anode in a lithium-ion cell is typically made from graphite which intercalates lithium ions during charging. The cathode is typically a lithium metal oxide whose composition determines the cell's voltage and capacity. The electrolyte is a lithium salt dissolved in an organic solvent that conducts ions between the electrodes. A separator membrane prevents direct contact between the anode and cathode while allowing ion flow. During charging, lithium ions move from the cathode through the electrolyte to the anode. During discharging, lithium ions return from the anode to the cathode, releasing energy. The charge-discharge cycle causes mechanical stress on the electrode materials that limits the battery's lifespan. Thermal management systems regulate battery temperature to prevent degradation and thermal runaway. Recycling programmes recover lithium, cobalt, and nickel from spent cells to reduce dependence on primary mining.",
-            "metadata": { "chunkId": "TC022-0001", "documentId": "TC-022", "tokenEstimate": 188, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 10, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC022-0001",
+              "documentId": "TC-022",
+              "tokenEstimate": 188,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 10,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -693,11 +1081,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "Proposition count is 10. Output chunk count is 1. The grouper does not split the single-domain content into multiple chunks."
     },
-
     {
       "id": "TC-023",
       "name": "Edge Case - All Chunks Same Domain",
@@ -707,15 +1096,45 @@
         "chunks": [
           {
             "text": "A transit-oriented development clusters residential and commercial buildings within a ten-minute walk of a rail or bus rapid transit station.",
-            "metadata": { "chunkId": "TC023-0001", "documentId": "TC-023", "tokenEstimate": 34, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.65, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC023-0001",
+              "documentId": "TC-023",
+              "tokenEstimate": 34,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.65,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Mixed-use zoning permits residential, retail, and office uses to coexist within the same block, and it is associated with higher pedestrian activity and lower vehicle kilometres travelled.",
-            "metadata": { "chunkId": "TC023-0002", "documentId": "TC-023", "tokenEstimate": 40, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.66, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC023-0002",
+              "documentId": "TC-023",
+              "tokenEstimate": 40,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.66,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The sixteen-hour city concept proposes that urban districts should be activated for at least sixteen hours per day through a mix of uses and programming rather than emptying after business hours.",
-            "metadata": { "chunkId": "TC023-0003", "documentId": "TC-023", "tokenEstimate": 42, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC023-0003",
+              "documentId": "TC-023",
+              "tokenEstimate": 42,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -730,11 +1149,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Urban Planning"]
+        "themes": [
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Output chunk count is 1. All propositions are assigned to Urban Planning. Three Level 4 chunks consolidate to one output chunk."
     },
-
     {
       "id": "TC-024",
       "name": "Edge Case - Every Chunk a Different Domain",
@@ -744,27 +1164,87 @@
         "chunks": [
           {
             "text": "Kubernetes is a container orchestration platform that automates the deployment and scaling of containerised applications.",
-            "metadata": { "chunkId": "TC024-0001", "documentId": "TC-024", "tokenEstimate": 28, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.71, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC024-0001",
+              "documentId": "TC-024",
+              "tokenEstimate": 28,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.71,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The human liver converts ammonia to urea for excretion by the kidneys.",
-            "metadata": { "chunkId": "TC024-0002", "documentId": "TC-024", "tokenEstimate": 18, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.74, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC024-0002",
+              "documentId": "TC-024",
+              "tokenEstimate": 18,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.74,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Michelangelo painted the Sistine Chapel ceiling between 1508 and 1512 under the patronage of Pope Julius II.",
-            "metadata": { "chunkId": "TC024-0003", "documentId": "TC-024", "tokenEstimate": 26, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.72, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC024-0003",
+              "documentId": "TC-024",
+              "tokenEstimate": 26,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.72,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "Nickel manganese cobalt cathodes offer a higher energy density than lithium iron phosphate cells.",
-            "metadata": { "chunkId": "TC024-0004", "documentId": "TC-024", "tokenEstimate": 20, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.69, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC024-0004",
+              "documentId": "TC-024",
+              "tokenEstimate": 20,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.69,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "CRISPR-Cas9 uses a guide RNA to direct the Cas9 protein to a precise location in the genome where it makes a targeted cut.",
-            "metadata": { "chunkId": "TC024-0005", "documentId": "TC-024", "tokenEstimate": 28, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.70, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC024-0005",
+              "documentId": "TC-024",
+              "tokenEstimate": 28,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.7,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The floor area ratio is used by urban planners to regulate building density relative to land parcel size.",
-            "metadata": { "chunkId": "TC024-0006", "documentId": "TC-024", "tokenEstimate": 22, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC024-0006",
+              "documentId": "TC-024",
+              "tokenEstimate": 22,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -781,11 +1261,17 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 6,
-        "themes": ["Cloud Infrastructure", "Human Metabolism", "Italian Renaissance", "Battery Chemistry", "Genomics", "Urban Planning"]
+        "themes": [
+          "Cloud Infrastructure",
+          "Human Metabolism",
+          "Italian Renaissance",
+          "Battery Chemistry",
+          "Genomics",
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Output chunk count is 6. No consolidation occurs. Each input chunk maps to exactly one output chunk with the correct thematic label. CRISPR-Cas9 pronoun 'it' is resolved."
     },
-
     {
       "id": "TC-025",
       "name": "Edge Case - Empty Text in One Chunk",
@@ -795,15 +1281,45 @@
         "chunks": [
           {
             "text": "The human liver performs over five hundred distinct biochemical functions.",
-            "metadata": { "chunkId": "TC025-0001", "documentId": "TC-025", "tokenEstimate": 16, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.68, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC025-0001",
+              "documentId": "TC-025",
+              "tokenEstimate": 16,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.68,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "",
-            "metadata": { "chunkId": "TC025-0002", "documentId": "TC-025", "tokenEstimate": 0, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 0, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": false }
+            "metadata": {
+              "chunkId": "TC025-0002",
+              "documentId": "TC-025",
+              "tokenEstimate": 0,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 0,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": false
+            }
           },
           {
             "text": "Genome-wide association studies identify single nucleotide polymorphisms that correlate with a particular disease or trait.",
-            "metadata": { "chunkId": "TC025-0003", "documentId": "TC-025", "tokenEstimate": 22, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 1, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC025-0003",
+              "documentId": "TC-025",
+              "tokenEstimate": 22,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 1,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -813,15 +1329,19 @@
           "The human liver performs over five hundred distinct biochemical functions.",
           "Genome-wide association studies identify single nucleotide polymorphisms that correlate with a particular disease or trait."
         ],
-        "skippedChunks": ["TC025-0002"]
+        "skippedChunks": [
+          "TC025-0002"
+        ]
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Human Metabolism", "Genomics"]
+        "themes": [
+          "Human Metabolism",
+          "Genomics"
+        ]
       },
       "passCriteria": "Pipeline completes without error. Empty chunk is skipped silently. Valid chunks are processed correctly. Output chunk count is 2."
     },
-
     {
       "id": "TC-026",
       "name": "Edge Case - Very Long Chunk Approaching Token Limit",
@@ -831,7 +1351,17 @@
         "chunks": [
           {
             "text": "Lithium-ion batteries power most consumer electronics and electric vehicles by storing energy through ion movement between electrodes. The anode is typically graphite which intercalates lithium ions during charging. The cathode is a lithium metal oxide whose crystal structure determines energy density. The electrolyte conducts ions between the electrodes and must remain chemically stable across the operating voltage range. A polymer separator prevents short circuits while allowing ion transport. During charging the external power source forces lithium ions from cathode to anode. During discharging the ions return spontaneously releasing stored energy as electricity. Cycle life degrades as repeated expansion and contraction damages the electrode crystal structure. Calendar ageing occurs even without cycling as the electrolyte slowly decomposes. Solid electrolyte interphase formation on the anode consumes lithium and reduces capacity on early cycles. Thermal runaway occurs when internal heat generation exceeds the battery's ability to dissipate heat. Overcharge protection circuits prevent voltage from exceeding safe limits. Battery management systems monitor individual cell voltages, temperatures, and state of charge. Nickel manganese cobalt chemistry offers higher energy density at the cost of thermal sensitivity. Lithium iron phosphate chemistry offers lower energy density with superior thermal stability and cycle life. Silicon anodes can store ten times more lithium than graphite but suffer from severe volume expansion. Solid-state batteries replace liquid electrolyte with ceramic or polymer material eliminating leakage risk. Energy density is measured in watt-hours per kilogram with current technology achieving 150 to 300. Power density is measured in watts per kilogram and determines peak discharge capability. Second-life applications repurpose retired electric vehicle batteries for stationary grid storage.",
-            "metadata": { "chunkId": "TC026-0001", "documentId": "TC-026", "tokenEstimate": 312, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 20, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC026-0001",
+              "documentId": "TC-026",
+              "tokenEstimate": 312,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 20,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -841,11 +1371,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "Pipeline completes without timeout. PreChunkForExtraction handles the token envelope correctly. All 20 propositions are extracted. Output chunk count is 1."
     },
-
     {
       "id": "TC-027",
       "name": "Edge Case - Numbered List Embedded in Prose",
@@ -855,7 +1386,17 @@
         "chunks": [
           {
             "text": "Urban planners use several tools to reduce car dependency in city centres. These include: 1) increasing the floor area ratio near transit stations, 2) requiring mixed-use ground floor activation on arterial streets, 3) reducing minimum parking requirements for new developments, and 4) implementing road pricing to internalise the cost of private vehicle use.",
-            "metadata": { "chunkId": "TC027-0001", "documentId": "TC-027", "tokenEstimate": 72, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC027-0001",
+              "documentId": "TC-027",
+              "tokenEstimate": 72,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -871,11 +1412,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Urban Planning"]
+        "themes": [
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Proposition count is 5. Each numbered list item becomes a standalone proposition with an explicit subject. The list numbering is dropped from the output."
     },
-
     {
       "id": "TC-028",
       "name": "Edge Case - Chunk Containing a Quoted Statement",
@@ -885,7 +1427,17 @@
         "chunks": [
           {
             "text": "Filippo Brunelleschi is reported to have said that the dome could be built without centring if the bricklayers followed the herringbone pattern precisely. Giorgio Vasari recorded this account in his Lives of the Artists published in 1550.",
-            "metadata": { "chunkId": "TC028-0001", "documentId": "TC-028", "tokenEstimate": 52, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC028-0001",
+              "documentId": "TC-028",
+              "tokenEstimate": 52,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -898,11 +1450,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Italian Renaissance"]
+        "themes": [
+          "Italian Renaissance"
+        ]
       },
       "passCriteria": "Proposition count is 2. Attribution to Brunelleschi is preserved in proposition 1. Attribution to Vasari is preserved in proposition 2. No fact is presented as unattributed."
     },
-
     {
       "id": "TC-029",
       "name": "Edge Case - Topic Shift Mid-Paragraph That Level 4 Missed",
@@ -912,7 +1465,17 @@
         "chunks": [
           {
             "text": "Content delivery networks reduce latency by caching assets at edge nodes close to end users. Kubernetes automates the deployment of containerised workloads across those same distributed infrastructure nodes. DNA methylation adds a methyl group to cytosine bases in the genome to regulate gene expression. Epigenetic changes like methylation can be inherited across cell divisions without altering the DNA sequence itself.",
-            "metadata": { "chunkId": "TC029-0001", "documentId": "TC-029", "tokenEstimate": 84, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 4, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC029-0001",
+              "documentId": "TC-029",
+              "tokenEstimate": 84,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 4,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -927,11 +1490,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Cloud Infrastructure", "Genomics"]
+        "themes": [
+          "Cloud Infrastructure",
+          "Genomics"
+        ]
       },
       "passCriteria": "Output chunk count is 2. Propositions 1 and 2 are assigned to Cloud Infrastructure. Propositions 3 and 4 are assigned to Genomics. A topic shift that Level 4 missed is correctly resolved by Level 5 at the grouping stage."
     },
-
     {
       "id": "TC-030",
       "name": "Edge Case - Duplicate Propositions Across Two Chunks",
@@ -941,11 +1506,31 @@
         "chunks": [
           {
             "text": "Lithium-ion batteries store energy through the movement of lithium ions between electrodes. The energy density of a battery cell is measured in watt-hours per kilogram.",
-            "metadata": { "chunkId": "TC030-0001", "documentId": "TC-030", "tokenEstimate": 38, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.67, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC030-0001",
+              "documentId": "TC-030",
+              "tokenEstimate": 38,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.67,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           },
           {
             "text": "The energy density of a battery cell is measured in watt-hours per kilogram. Current lithium-ion technology achieves between 150 and 300 watt-hours per kilogram depending on cathode chemistry.",
-            "metadata": { "chunkId": "TC030-0002", "documentId": "TC-030", "tokenEstimate": 40, "strategy": "Semantic", "chunkingPattern": "Cumulative", "sentenceCount": 2, "boundaryScore": 0.0, "windowSize": 3, "embeddingReady": true }
+            "metadata": {
+              "chunkId": "TC030-0002",
+              "documentId": "TC-030",
+              "tokenEstimate": 40,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 2,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
           }
         ]
       },
@@ -960,11 +1545,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "Proposition count is 3 not 4. The energy density proposition appears exactly once. Output chunk count is 1."
     },
-
     {
       "id": "TC-031",
       "name": "Integration - Full Six-Domain Document End to End",
@@ -973,7 +1559,14 @@
       "input": {
         "sourceFile": "AgenticChunkingTestInput.json",
         "chunkCount": 12,
-        "domains": ["Cloud Infrastructure", "Human Metabolism", "Italian Renaissance", "Battery Chemistry", "Genomics", "Urban Planning"]
+        "domains": [
+          "Cloud Infrastructure",
+          "Human Metabolism",
+          "Italian Renaissance",
+          "Battery Chemistry",
+          "Genomics",
+          "Urban Planning"
+        ]
       },
       "expectedExtractionOutput": {
         "propositionCountRange": "48 to 56",
@@ -982,11 +1575,17 @@
       "expectedGroupingOutput": {
         "chunkCount": 6,
         "chunkCountRange": "5 to 8",
-        "themes": ["Cloud Infrastructure", "Human Metabolism", "Italian Renaissance", "Battery Chemistry", "Genomics", "Urban Planning"]
+        "themes": [
+          "Cloud Infrastructure",
+          "Human Metabolism",
+          "Italian Renaissance",
+          "Battery Chemistry",
+          "Genomics",
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Extraction phase: all five compound sentences are split, all five pronoun targets are resolved. Grouping phase: Battery Chemistry propositions from all four source chunks land in one output chunk. Mixed-domain chunk DOC-0012 is separated correctly. Output chunk count is between 5 and 8."
     },
-
     {
       "id": "TC-032",
       "name": "Integration - Single Domain Document",
@@ -1001,11 +1600,12 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 1,
-        "themes": ["Battery Chemistry"]
+        "themes": [
+          "Battery Chemistry"
+        ]
       },
       "passCriteria": "All Level 4 chunks consolidate to one output chunk. No spurious second domain is created. Output chunk count is 1."
     },
-
     {
       "id": "TC-033",
       "name": "Integration - Full Five-Level Stack",
@@ -1022,11 +1622,14 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 3,
-        "themes": ["Cloud Infrastructure", "Battery Chemistry", "Genomics"]
+        "themes": [
+          "Cloud Infrastructure",
+          "Battery Chemistry",
+          "Genomics"
+        ]
       },
       "passCriteria": "Data contract holds across all three levels. Level 3 plain text output feeds Level 4 correctly. Level 4 SemanticChunkResult list feeds Level 5 correctly. Final output produces 3 thematic chunks. No pipeline errors at any level boundary."
     },
-
     {
       "id": "TC-034",
       "name": "Integration - Short Document Two Domains",
@@ -1041,11 +1644,13 @@
       },
       "expectedGroupingOutput": {
         "chunkCount": 2,
-        "themes": ["Human Metabolism", "Urban Planning"]
+        "themes": [
+          "Human Metabolism",
+          "Urban Planning"
+        ]
       },
       "passCriteria": "Output chunk count is 2. Each domain receives exactly one chunk. Pipeline completes without error on minimal input."
     },
-
     {
       "id": "TC-035",
       "name": "Integration - Enterprise Policy Document Excerpt",
@@ -1061,11 +1666,15 @@
       },
       "expectedGroupingOutput": {
         "chunkCountRange": "3 to 5",
-        "expectedThemes": ["Data Collection", "Data Retention", "User Rights", "Third-Party Data Sharing"],
+        "expectedThemes": [
+          "Data Collection",
+          "Data Retention",
+          "User Rights",
+          "Third-Party Data Sharing"
+        ],
         "note": "Theme names will be generated by the LLM based on content. Exact labels may vary."
       },
       "passCriteria": "Pipeline completes on real-world content. Output chunks correspond to recognisable policy sections. No propositions are lost. Thematic labels are descriptive and accurate. Chunk count is between 3 and 5."
     }
-
   ]
 }

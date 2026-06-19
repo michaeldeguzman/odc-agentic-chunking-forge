@@ -261,7 +261,7 @@ namespace AgenticChunkingLibrary.Tests
             Assert.Equal("TC-001", response.Chunks[0].DocumentId);
             Assert.Equal("TC-001-0001", response.Chunks[0].ChunkId);
             Assert.Equal(1, response.Chunks[0].PropositionCount);
-            Assert.Contains("Kubernetes is a container orchestration platform",
+            Assert.Contains("Kubernetes is an open-source container orchestration platform",
                 response.Chunks[0].MergedContent);
         }
 
