@@ -2,13 +2,13 @@
   "testSuite": {
     "name": "Agentic Chunking Library - Level 5 Test Cases",
     "version": "1.0",
-    "description": "35 test cases covering extraction quality, grouping quality, edge cases, and full pipeline integration. Input chunks simulate Level 4 SemanticChunkingLibrary output using Cumulative pattern, windowSize=3, thresholdPct=65. Each case has explicit pass criteria.",
-    "totalCases": 35,
+    "description": "36 test cases covering extraction quality, grouping quality, edge cases, and full pipeline integration. Input chunks simulate Level 4 SemanticChunkingLibrary output using Cumulative pattern, windowSize=3, thresholdPct=65. Each case has explicit pass criteria.",
+    "totalCases": 36,
     "categories": [
       "Extraction Phase - 10 cases (TC-001 to TC-010)",
       "Grouping Phase - 10 cases (TC-011 to TC-020)",
       "Edge Cases - 10 cases (TC-021 to TC-030)",
-      "Real Pipeline Integration - 5 cases (TC-031 to TC-035)"
+      "Real Pipeline Integration - 6 cases (TC-031 to TC-036)"
     ]
   },
   "testCases": [
@@ -16,11 +16,11 @@
       "id": "TC-001",
       "name": "Extraction Baseline - Clean Single Sentence",
       "category": "Extraction Phase",
-      "description": "A single genuinely atomic sentence containing exactly one fact, no coordinated verbs, no compound structure, and no pronouns. Tests that the extraction prompt passes through a well-formed proposition without modification or splitting.",
+      "description": "A single clean sentence with no compound structure and no pronouns. Tests that the extraction prompt passes through a well-formed proposition without modification.",
       "input": {
         "chunks": [
           {
-            "text": "Kubernetes is an open-source container orchestration platform originally developed by Google.",
+            "text": "Kubernetes is an open-source platform for automating the deployment of containerised applications.",
             "metadata": {
               "chunkId": "TC001-0001",
               "documentId": "TC-001",
@@ -38,7 +38,7 @@
       "expectedExtractionOutput": {
         "propositionCount": 1,
         "propositions": [
-          "Kubernetes is an open-source container orchestration platform originally developed by Google."
+          "Kubernetes is an open-source platform for automating the deployment of containerised applications."
         ]
       },
       "expectedGroupingOutput": {
@@ -47,7 +47,7 @@
           "Cloud Infrastructure"
         ]
       },
-      "passCriteria": "Proposition count is 1. Text is unchanged or differs only in trivial whitespace normalisation. No splitting occurred. No pronoun resolution required. The sentence contains one fact, one subject, one verb, and no coordinated clauses."
+      "passCriteria": "Proposition count is 1. Text is unchanged or differs only in trivial whitespace. No splitting occurred. The sentence has one subject, one verb, no coordinated clauses, and no causal constructions."
     },
     {
       "id": "TC-002",
@@ -57,11 +57,11 @@
       "input": {
         "chunks": [
           {
-            "text": "Lithium-ion batteries store energy through the movement of lithium ions between a cathode and an anode, and this electrochemical process degrades over time as electrode materials expand and contract during charge cycles.",
+            "text": "Lithium-ion batteries store energy through the movement of lithium ions between a cathode and an anode, and the electrode materials expand and contract during each charge cycle.",
             "metadata": {
               "chunkId": "TC002-0001",
               "documentId": "TC-002",
-              "tokenEstimate": 48,
+              "tokenEstimate": 42,
               "strategy": "Semantic",
               "chunkingPattern": "Cumulative",
               "sentenceCount": 1,
@@ -76,7 +76,7 @@
         "propositionCount": 2,
         "propositions": [
           "Lithium-ion batteries store energy through the movement of lithium ions between a cathode and an anode.",
-          "The electrochemical process in lithium-ion batteries degrades over time as electrode materials expand and contract during charge cycles."
+          "The electrode materials in lithium-ion batteries expand and contract during each charge cycle."
         ]
       },
       "expectedGroupingOutput": {
@@ -85,7 +85,7 @@
           "Battery Chemistry"
         ]
       },
-      "passCriteria": "Proposition count is 2. Each proposition is self-contained and readable in isolation. No pronouns remain unresolved."
+      "passCriteria": "Proposition count is 2. Each proposition is self-contained and readable in isolation. No pronouns remain unresolved. No causal inference produces a third proposition."
     },
     {
       "id": "TC-003",
@@ -247,11 +247,11 @@
       "input": {
         "chunks": [
           {
-            "text": "CRISPR-Cas9 is a gene editing tool derived from a bacterial immune defence mechanism, and it works by using a guide RNA to direct the Cas9 protein to a precise location in the genome where it makes a targeted cut.",
+            "text": "CRISPR-Cas9 is a gene editing tool derived from a bacterial immune defence mechanism, and it uses a guide RNA to direct the Cas9 protein to a precise location in the genome to make a targeted cut.",
             "metadata": {
               "chunkId": "TC007-0001",
               "documentId": "TC-007",
-              "tokenEstimate": 48,
+              "tokenEstimate": 46,
               "strategy": "Semantic",
               "chunkingPattern": "Cumulative",
               "sentenceCount": 1,
@@ -266,7 +266,7 @@
         "propositionCount": 2,
         "propositions": [
           "CRISPR-Cas9 is a gene editing tool derived from a bacterial immune defence mechanism.",
-          "CRISPR-Cas9 works by using a guide RNA to direct the Cas9 protein to a precise location in the genome where it makes a targeted cut."
+          "CRISPR-Cas9 uses a guide RNA to direct the Cas9 protein to a precise location in the genome to make a targeted cut."
         ]
       },
       "expectedGroupingOutput": {
@@ -275,21 +275,21 @@
           "Genomics"
         ]
       },
-      "passCriteria": "Proposition count is 2. Both instances of 'it' are replaced with 'CRISPR-Cas9'. Sentence splits cleanly at the conjunction."
+      "passCriteria": "Proposition count is 2. Both instances of 'it' are replaced with 'CRISPR-Cas9'. Sentence splits cleanly at the conjunction. The infinitive phrase 'to make a targeted cut' stays attached to the second proposition and is not split out as a third."
     },
     {
       "id": "TC-008",
       "name": "Extraction - Three Facts in One Sentence",
       "category": "Extraction Phase",
-      "description": "A single sentence containing three distinct facts separated by commas. The extraction prompt must produce three atomic propositions.",
+      "description": "A sentence containing three distinct facts separated by commas. The third clause references 'age-related mitochondrial decline' explicitly so the model does not need to synthesise a referent. Tests that the extraction prompt produces three atomic propositions.",
       "input": {
         "chunks": [
           {
-            "text": "The mitochondria generate adenosine triphosphate through oxidative phosphorylation, the efficiency of this process declines with age as mitochondrial DNA accumulates mutations, and antioxidants have been proposed as a mechanism to slow this decline.",
+            "text": "Mitochondria generate adenosine triphosphate through oxidative phosphorylation, the efficiency of mitochondrial energy production declines with age as mitochondrial DNA accumulates mutations, and antioxidants have been proposed as a mechanism to slow age-related mitochondrial decline.",
             "metadata": {
               "chunkId": "TC008-0001",
               "documentId": "TC-008",
-              "tokenEstimate": 50,
+              "tokenEstimate": 52,
               "strategy": "Semantic",
               "chunkingPattern": "Cumulative",
               "sentenceCount": 1,
@@ -304,8 +304,8 @@
         "propositionCount": 3,
         "propositions": [
           "Mitochondria generate adenosine triphosphate through oxidative phosphorylation.",
-          "The efficiency of oxidative phosphorylation declines with age as mitochondrial DNA accumulates mutations.",
-          "Antioxidants have been proposed as a mechanism to slow the age-related decline in mitochondrial efficiency."
+          "The efficiency of mitochondrial energy production declines with age as mitochondrial DNA accumulates mutations.",
+          "Antioxidants have been proposed as a mechanism to slow age-related mitochondrial decline."
         ]
       },
       "expectedGroupingOutput": {
@@ -314,7 +314,7 @@
           "Human Metabolism"
         ]
       },
-      "passCriteria": "Proposition count is 3. Each proposition is fully self-contained. The referent of 'this decline' in proposition 3 is made explicit."
+      "passCriteria": "Proposition count is 3. Each proposition is self-contained. The referent of 'this decline' is made explicit in the source sentence as 'age-related mitochondrial decline' so the model does not need to infer it. Causal 'as' in clause 2 is acceptable because it describes a mechanism not an invention."
     },
     {
       "id": "TC-009",
@@ -359,15 +359,15 @@
       "id": "TC-010",
       "name": "Extraction - Technical Acronym Referenced as Pronoun",
       "category": "Extraction Phase",
-      "description": "A sentence where a technical acronym is introduced in full, then referenced as 'it' in the second clause. The extraction prompt must resolve to the full name not the acronym.",
+      "description": "A compound sentence where 'it' refers to a technical term introduced earlier. The parenthetical abbreviation has been removed from the source to prevent the model treating it as a separable fact. Tests pronoun resolution to a full technical term.",
       "input": {
         "chunks": [
           {
-            "text": "Infrastructure as code, commonly abbreviated as IaC, is a practice in which cloud resources are defined in machine-readable configuration files, and it allows engineering teams to version-control, review, and audit infrastructure changes using standard software development workflows.",
+            "text": "Infrastructure as code is a practice in which cloud resources are defined in machine-readable configuration files, and it allows engineering teams to version-control, review, and audit infrastructure changes using standard software development workflows.",
             "metadata": {
               "chunkId": "TC010-0001",
               "documentId": "TC-010",
-              "tokenEstimate": 54,
+              "tokenEstimate": 50,
               "strategy": "Semantic",
               "chunkingPattern": "Cumulative",
               "sentenceCount": 1,
@@ -391,7 +391,7 @@
           "Cloud Infrastructure"
         ]
       },
-      "passCriteria": "Proposition count is 2. Pronoun 'it' is resolved to 'Infrastructure as code' not to the acronym 'IaC'. The parenthetical abbreviation note is dropped from the output propositions."
+      "passCriteria": "Proposition count is 2. Pronoun 'it' is resolved to 'Infrastructure as code'. No third proposition is created from the parenthetical abbreviation because the parenthetical has been removed from the source. The acronym IaC does not appear in the output."
     },
     {
       "id": "TC-011",
@@ -1675,6 +1675,114 @@
         "note": "Theme names will be generated by the LLM based on content. Exact labels may vary."
       },
       "passCriteria": "Pipeline completes on real-world content. Output chunks correspond to recognisable policy sections. No propositions are lost. Thematic labels are descriptive and accurate. Chunk count is between 3 and 5."
+    },
+    {
+      "id": "TC-036",
+      "name": "Integration - Cross-Chunk Consolidation and Mixed-Domain Split",
+      "category": "Real Pipeline Integration",
+      "description": "Four realistic multi-sentence Level 4 chunks (2 to 4 sentences each), unlike TC-001 through TC-030 which isolate single sentences. Two chunks (ART-0001, ART-0003) are both Battery Chemistry but were separated by an unrelated Urban Planning chunk in the source document, simulating what happens when a document interleaves topics. One chunk (ART-0004) silently mixes Human Metabolism and Genomics content because vocabulary overlap kept the Level 4 cosine distance under threshold. This is the primary demonstration case for the article: it shows Level 5 correcting chunk topology rather than simply changing chunk count.",
+      "input": {
+        "chunks": [
+          {
+            "text": "Lithium-ion batteries store energy through the movement of lithium ions between a cathode and an anode. This electrochemical process is the basis for nearly all modern portable electronics and electric vehicles. The cathode material is typically a lithium metal oxide, and its specific composition determines the cell's overall energy density.",
+            "metadata": {
+              "chunkId": "ART-0001",
+              "documentId": "TC-036",
+              "tokenEstimate": 72,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 3,
+              "boundaryScore": 0.71,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
+          },
+          {
+            "text": "Urban planners use the floor area ratio to regulate building density relative to the size of a land parcel. Cities that pair high floor area ratios with strong public transit access tend to see reduced car dependency over time. Mixed-use zoning reinforces this effect by allowing residential and commercial activity to coexist on the same block.",
+            "metadata": {
+              "chunkId": "ART-0002",
+              "documentId": "TC-036",
+              "tokenEstimate": 74,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 3,
+              "boundaryScore": 0.69,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
+          },
+          {
+            "text": "Solid-state batteries replace the liquid electrolyte found in conventional lithium-ion cells with a ceramic or polymer material. This substitution removes the leakage and fire risk associated with liquid electrolytes. Energy density in current solid-state designs is measured in watt-hours per kilogram and is approaching parity with the best lithium-ion chemistries.",
+            "metadata": {
+              "chunkId": "ART-0003",
+              "documentId": "TC-036",
+              "tokenEstimate": 76,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 3,
+              "boundaryScore": 0.73,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
+          },
+          {
+            "text": "Mitochondria generate adenosine triphosphate through a process called oxidative phosphorylation. The efficiency of this process declines with age as mitochondrial DNA accumulates mutations. DNA methylation is a separate epigenetic mechanism in which a methyl group is added to a cytosine base in the genome. This modification regulates gene expression without altering the underlying DNA sequence.",
+            "metadata": {
+              "chunkId": "ART-0004",
+              "documentId": "TC-036",
+              "tokenEstimate": 80,
+              "strategy": "Semantic",
+              "chunkingPattern": "Cumulative",
+              "sentenceCount": 4,
+              "boundaryScore": 0.0,
+              "windowSize": 3,
+              "embeddingReady": true
+            }
+          }
+        ]
+      },
+      "expectedExtractionOutput": {
+        "propositionCountRange": "12 to 15",
+        "note": "Each multi-sentence chunk yields multiple propositions. The cathode composition sentence in ART-0001 and the methylation sentence in ART-0004 each contain a relative clause likely to split into two propositions."
+      },
+      "expectedGroupingOutput": {
+        "chunkCount": 4,
+        "chunkCountRange": "3 to 5",
+        "themes": [
+          "Battery Chemistry",
+          "Urban Planning",
+          "Human Metabolism",
+          "Genomics"
+        ],
+        "consolidationExpected": [
+          {
+            "sourceChunks": [
+              "ART-0001",
+              "ART-0003"
+            ],
+            "resultTheme": "Battery Chemistry",
+            "note": "These two source chunks are not adjacent in the input list (ART-0002 sits between them) yet must consolidate into one output chunk. This is the primary cross-chunk consolidation test in the suite."
+          }
+        ],
+        "splitExpected": [
+          {
+            "sourceChunk": "ART-0004",
+            "resultThemes": [
+              "Human Metabolism",
+              "Genomics"
+            ],
+            "note": "A single Level 4 chunk silently mixing two domains due to vocabulary overlap (DNA, genome, cellular biology). Level 5 must detect the boundary between the mitochondria sentences and the methylation sentences that Level 4 missed."
+          }
+        ],
+        "unchangedExpected": [
+          {
+            "sourceChunk": "ART-0002",
+            "resultTheme": "Urban Planning",
+            "note": "Already correctly grouped by Level 4. Tests that Level 5 does not over-process content that needs no correction."
+          }
+        ]
+      },
+      "passCriteria": "Output chunk count is 4 (or within 3 to 5 if the grouper subdivides further). ART-0001 and ART-0003 propositions land in a single Battery Chemistry chunk despite originating from non-adjacent source chunks. ART-0004 propositions split correctly into Human Metabolism and Genomics, with no metabolism proposition in the Genomics chunk and vice versa. ART-0002 propositions remain together as Urban Planning, demonstrating no unnecessary splitting of already-correct content."
     }
   ]
 }
