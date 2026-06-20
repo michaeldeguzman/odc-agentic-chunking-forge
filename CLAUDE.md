@@ -1,7 +1,7 @@
 # AgenticChunkingLibrary
 
 ODC External Logic component for Level 5 Agentic Chunking workflows.
-Provides two stateless actions consumed by the Agentic Chunking ODC application.
+Provides three stateless actions consumed by the Agentic Chunking ODC application.
 
 ## Contribution rules
 
@@ -11,6 +11,7 @@ Provides two stateless actions consumed by the Agentic Chunking ODC application.
 ## What this library does
 
 - **PreChunkForExtraction** — splits source text into token-safe batches before the first AI Gateway call
+- **ParsePropositions** — parses the extraction LLM's JSON response into a clean list of proposition strings; handles markdown fences, doubled quotes, and outer-quoted responses
 - **NormaliseAgenticOutput** — parses the grouping LLM's JSON response into `AgenticChunk` structs
 
 ## What this library does NOT do
@@ -38,8 +39,9 @@ src/AgenticChunkingLibrary/
 
 tests/AgenticChunkingLibrary.Tests/
     PreChunkForExtractionTests.cs       # 10 unit tests
+    ParsePropositionsTests.cs           # 15 unit tests
     NormaliseAgenticOutputTests.cs      # 18 unit tests
-    AgenticTestCasesTests.cs            # 35 tests driven from AgenticTestCases.json
+    AgenticTestCasesTests.cs            # 44 tests driven from AgenticTestCases.json
     TestModels.cs                       # JSON deserialization records
     TestSuiteFixture.cs                 # IClassFixture loading AgenticTestCases.json
     AgenticTestCases.json               # 35 test cases (copy of tests/AgenticTestCases.json)
@@ -50,7 +52,7 @@ tests/AgenticTestCases.json             # Source of truth for test cases
 ## Build commands
 
 ```bash
-# Run all tests (63 total)
+# Run all tests (87 total)
 dotnet test
 
 # Build release
@@ -104,6 +106,7 @@ One token ≈ 4 characters throughout this library. `TokenEstimator.Estimate(tex
 
 Unit tests cover only C# behaviour:
 - Batching logic and token envelope handling (`PreChunkForExtraction`)
+- JSON parsing, fence stripping, doubled-quote normalisation, outer-quote stripping (`ParsePropositions`)
 - JSON parsing, struct field mapping, failure modes, markdown fence stripping (`NormaliseAgenticOutput`)
 
 **Out of scope for unit tests** (require live AI Gateway calls, run in the ODC demo app):
