@@ -12,7 +12,7 @@ namespace AgenticChunkingLibrary.Models
         [OSStructureField(Description = "The document identifier passed by the caller")]
         public string DocumentId { get; set; }
 
-        [OSStructureField(Description = "The thematic category label assigned by the LLM")]
+        [OSStructureField(Description = "The thematic category label assigned by the grouping call")]
         public string ThematicCategory { get; set; }
 
         [OSStructureField(Description = "The individual propositions that make up this chunk")]
