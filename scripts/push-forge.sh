@@ -16,7 +16,7 @@ INTERNAL_FILES=(
 echo "Building Forge release from $SOURCE_BRANCH..."
 git checkout -b "$TEMP_BRANCH" "$SOURCE_BRANCH"
 
-# Remove internal files from tracking on the temp branch.
+# Remove internal files from git tracking on the temp branch.
 for f in "${INTERNAL_FILES[@]}"; do
     if git ls-files --error-unmatch "$f" &>/dev/null; then
         git rm --cached "$f" --quiet
@@ -24,15 +24,15 @@ for f in "${INTERNAL_FILES[@]}"; do
     fi
 done
 
-# Persist the exclusions in .gitignore so they cannot be re-tracked.
-for f in "${INTERNAL_FILES[@]}"; do
-    grep -qxF "$f" .gitignore 2>/dev/null || echo "$f" >> .gitignore
-done
-git add .gitignore
+# Point the CI badge to the Forge repo, not the dev repo.
+sed -i '' \
+    's|odc-agentic-chunking/actions/workflows|odc-agentic-chunking-forge/actions/workflows|g' \
+    README.md
+git add README.md
 
 # Commit only if there are staged changes.
 if ! git diff --cached --quiet; then
-    git commit -m "forge: exclude internal development files" --quiet
+    git commit -m "forge: exclude internal files, fix CI badge" --quiet
 fi
 
 echo "Pushing to $FORGE_REMOTE..."
