@@ -23,3 +23,6 @@ TestResults/
 
 # VS Code Local History
 .history/
+
+# Internal tooling instructions
+CLAUDE.md

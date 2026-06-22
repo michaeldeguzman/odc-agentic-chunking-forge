@@ -4,6 +4,8 @@
 
 An OutSystems ODC External Logic library that provides stateless text pre-processing and output normalisation for Level 5 Agentic Chunking workflows. It handles the C# work that sits on either side of your AI Gateway calls — splitting input text into safe batches, parsing proposition lists, and normalising grouped output into typed ODC structures.
 
+> **Platform:** OutSystems Developer Cloud (ODC) only. Not compatible with OutSystems 11.
+
 ## Actions
 
 ### `PreChunkForExtraction`
