@@ -10,6 +10,7 @@ TEMP_BRANCH="forge-release-$$"
 # Files that exist in the dev repo but must not appear in the public Forge repo.
 INTERNAL_FILES=(
     "CLAUDE.md"
+    "CHANGELOG.md"
     "scripts/push-forge.sh"
 )
 
