@@ -16,4 +16,8 @@
     <PackageReference Include="OutSystems.ExternalLibraries.SDK" Version="1.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="AgenticChunk.png" />
+  </ItemGroup>
+
 </Project>

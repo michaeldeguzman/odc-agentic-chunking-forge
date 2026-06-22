@@ -6,7 +6,8 @@ namespace AgenticChunkingLibrary
 {
     [OSInterface(
         Name = "AgenticChunkingHelpers",
-        Description = "Stateless text pre-processing and output normalisation for Level 5 Agentic Chunking workflows in ODC.")]
+        Description = "Stateless text pre-processing and output normalisation for Level 5 Agentic Chunking workflows in ODC.",
+        IconResourceName = "AgenticChunkingLibrary.AgenticChunk.png")]
     public interface IAgenticChunkingActions
     {
         [OSAction(
