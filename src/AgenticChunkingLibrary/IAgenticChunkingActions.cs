@@ -5,7 +5,7 @@ using OutSystems.ExternalLibraries.SDK;
 namespace AgenticChunkingLibrary
 {
     [OSInterface(
-        Name = "AgenticChunking",
+        Name = "AgenticChunkingHelpers",
         Description = "Stateless text pre-processing and output normalisation for Level 5 Agentic Chunking workflows in ODC.")]
     public interface IAgenticChunkingActions
     {
