@@ -23,3 +23,5 @@ TestResults/
 
 # VS Code Local History
 .history/
+CLAUDE.md
+scripts/push-forge.sh
