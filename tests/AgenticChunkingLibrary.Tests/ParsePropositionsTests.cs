@@ -59,7 +59,7 @@ namespace AgenticChunkingLibrary.Tests
         [Fact]
         public void DoubledInnerQuotes_AreNormalisedToSingleQuotes()
         {
-            // LLM sometimes wraps each element with "" instead of "
+            // Handles doubled inner quotes — some responses wrap each element with "" instead of "
             string input = "[\"\"Proposition one.\"\", \"\"Proposition two.\"\"]";
             var result = _sut.ParsePropositions(input);
             Assert.Equal(2, result.Count);

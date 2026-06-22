@@ -13,8 +13,7 @@ namespace AgenticChunkingLibrary.Helpers
 
             string trimmed = rawJson.Trim();
 
-            // LLM sometimes wraps the entire response in outer quotes before the fence.
-            // Strip them so StripFences can see the backticks.
+            // Strip outer quotes before fence detection — some responses are wrapped this way.
             if (trimmed.StartsWith("\"") && trimmed.EndsWith("\"") && trimmed.Length >= 2)
                 trimmed = trimmed.Substring(1, trimmed.Length - 2);
 

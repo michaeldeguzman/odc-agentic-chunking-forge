@@ -23,7 +23,7 @@ namespace AgenticChunkingLibrary.Tests
         // ============================================================
         // PRECHUNKFOREXTRACTION TESTS
         // These tests verify batching behaviour only.
-        // They do not test proposition quality — that is an LLM concern.
+        // They do not test proposition quality — that is an AI Gateway concern.
         // ============================================================
 
         [Fact]
@@ -133,7 +133,7 @@ namespace AgenticChunkingLibrary.Tests
 
         // ============================================================
         // PARSEPROPOSITIONS TESTS
-        // These tests verify that raw LLM extraction responses are
+        // These tests verify that raw AI Gateway extraction responses are
         // cleaned and parsed correctly before accumulation.
         // ============================================================
 
@@ -649,7 +649,7 @@ namespace AgenticChunkingLibrary.Tests
             return sb.ToString().Trim();
         }
 
-        // Builds a synthetic LLM grouping response JSON from the expectedGroupingOutput
+        // Builds a synthetic grouping response JSON from the expectedGroupingOutput
         // of a test case. Distributes propositions from expectedExtractionOutput evenly
         // across the themes. Falls back to a placeholder fact per theme when propositions
         // are absent (integration test cases).

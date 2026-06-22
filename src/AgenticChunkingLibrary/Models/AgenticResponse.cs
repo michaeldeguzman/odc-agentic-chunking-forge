@@ -18,7 +18,7 @@ namespace AgenticChunkingLibrary.Models
         [OSStructureField(Description = "Total estimated token count across all chunks")]
         public int TotalTokenEstimate { get; set; }
 
-        [OSStructureField(Description = "True if parsing succeeded, false if the LLM returned unparseable JSON")]
+        [OSStructureField(Description = "True if parsing succeeded, false if the response could not be parsed")]
         public bool IsSuccess { get; set; }
 
         [OSStructureField(Description = "Error detail if IsSuccess is false, empty string otherwise")]

@@ -27,11 +27,11 @@ Parses the raw JSON response from an extraction AI Gateway call into a clean lis
 
 | Parameter | Type | Description |
 |---|---|---|
-| `rawExtractionJson` | Text | The raw string returned by the extraction LLM |
+| `rawExtractionJson` | Text | The raw string returned by the extraction AI Gateway |
 
 **Returns** `List<Text>` — list of proposition strings. Returns an empty list if the response cannot be parsed.
 
-**Expected LLM response format:**
+**Expected AI Gateway response format:**
 ```json
 ["Proposition one.", "Proposition two.", "Proposition three."]
 ```
@@ -44,12 +44,12 @@ Parses the raw JSON response from the thematic grouping AI Gateway call and maps
 
 | Parameter | Type | Description |
 |---|---|---|
-| `rawGroupingJson` | Text | The raw JSON string returned by the grouping LLM |
+| `rawGroupingJson` | Text | The raw JSON string returned by the grouping AI Gateway |
 | `documentId` | Text | Document identifier embedded in each `ChunkId` (e.g. `DOC-001`) |
 
 **Returns** `AgenticResponse` — see structures below.
 
-**Expected LLM response format:**
+**Expected AI Gateway response format:**
 ```json
 [
   { "category": "Finance", "facts": ["Revenue grew 10%.", "Costs reduced by 5%."] },
@@ -69,7 +69,7 @@ A single thematic chunk produced by the grouping pass.
 |---|---|---|
 | `ChunkId` | Text | Unique identifier — `{DocumentId}-{sequence}` (e.g. `DOC-001-0001`) |
 | `DocumentId` | Text | The document identifier passed by the caller |
-| `ThematicCategory` | Text | The thematic category label assigned by the LLM |
+| `ThematicCategory` | Text | The thematic category label assigned by the AI Gateway |
 | `Propositions` | List&lt;Text&gt; | The individual propositions that make up this chunk |
 | `MergedContent` | Text | All propositions joined by a single space |
 | `PropositionCount` | Integer | Number of propositions in this chunk |
