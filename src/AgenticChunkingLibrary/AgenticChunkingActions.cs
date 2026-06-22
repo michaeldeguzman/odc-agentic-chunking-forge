@@ -111,7 +111,7 @@ namespace AgenticChunkingLibrary
 
             if (entries.Count == 0)
             {
-                response.ErrorDetail = "Grouping JSON parsed to zero entries. The LLM may have returned malformed JSON or an empty array.";
+                response.ErrorDetail = "Grouping JSON parsed to zero entries. The response may contain malformed JSON or an empty array.";
                 return response;
             }
 

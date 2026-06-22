@@ -9,8 +9,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and 
 ### Added
 
 - `PreChunkForExtraction` action — splits source text into token-safe batches for the extraction prompt
-- `ParsePropositions` action — parses the extraction LLM JSON response into a clean list of proposition strings; handles markdown fences, doubled quotes, and outer-quoted responses
-- `NormaliseAgenticOutput` action — parses the grouping LLM JSON response into `AgenticChunk` structs
+- `ParsePropositions` action — parses the extraction AI Gateway JSON response into a clean list of proposition strings; handles markdown fences, doubled quotes, and outer-quoted responses
+- `NormaliseAgenticOutput` action — parses the grouping AI Gateway JSON response into `AgenticChunk` structs
 - `AgenticChunk` structure with `ChunkId`, `DocumentId`, `ThematicCategory`, `Propositions`, `MergedContent`, `PropositionCount`, `CharacterCount`, `TokenEstimate`, `Hash`, and `IsTag` fields
 - `AgenticResponse` wrapper structure with `Chunks`, `TotalChunks`, `TotalPropositions`, `TotalTokenEstimate`, `IsSuccess`, and `ErrorDetail` fields
 - 89 unit tests covering batching logic, JSON parsing, fence stripping, and failure modes
