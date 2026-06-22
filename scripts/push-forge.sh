@@ -24,21 +24,23 @@ for f in "${INTERNAL_FILES[@]}"; do
     fi
 done
 
-# Point the CI badge to the Forge repo, not the dev repo.
+# Point the CI badge and release download links to the Forge repo, not the dev repo.
 sed -i '' \
-    's|odc-agentic-chunking/actions/workflows|odc-agentic-chunking-forge/actions/workflows|g' \
+    -e 's|odc-agentic-chunking/actions/workflows|odc-agentic-chunking-forge/actions/workflows|g' \
+    -e 's|odc-agentic-chunking/releases|odc-agentic-chunking-forge/releases|g' \
     README.md
 git add README.md
 
 # Commit only if there are staged changes.
 if ! git diff --cached --quiet; then
-    git commit -m "forge: exclude internal files, fix CI badge" --quiet
+    git commit -m "forge: exclude internal files, fix repo links" --quiet
 fi
 
 echo "Pushing to $FORGE_REMOTE..."
 git push "$FORGE_REMOTE" "$TEMP_BRANCH:$SOURCE_BRANCH" --force
 
-git checkout "$SOURCE_BRANCH"
+# Force checkout handles untracked files left behind by git rm --cached.
+git checkout -f "$SOURCE_BRANCH"
 git branch -D "$TEMP_BRANCH"
 
 echo "Done. odc-agentic-chunking-forge is up to date."
