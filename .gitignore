@@ -17,3 +17,9 @@ TestResults/
 
 # NuGet
 *.nupkg
+
+# ODC package zip
+*.zip
+
+# VS Code Local History
+.history/

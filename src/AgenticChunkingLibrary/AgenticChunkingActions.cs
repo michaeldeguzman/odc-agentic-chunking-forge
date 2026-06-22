@@ -130,6 +130,7 @@ namespace AgenticChunkingLibrary
                     ChunkId = $"{documentId}-{sequenceCounter:D4}",
                     DocumentId = documentId,
                     ThematicCategory = entry.Category,
+                    Propositions = new List<string>(entry.Facts),
                     MergedContent = mergedContent,
                     PropositionCount = entry.Facts.Count,
                     CharacterCount = charCount,

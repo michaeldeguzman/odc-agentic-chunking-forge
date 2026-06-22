@@ -182,5 +182,21 @@ namespace AgenticChunkingLibrary.Tests
             var result = _sut.NormaliseAgenticOutput(json, "DOC-001");
             Assert.Equal("First. Second.", result.Chunks[0].MergedContent);
         }
+
+        [Fact]
+        public void ValidJson_PropositionsListMatchesFacts()
+        {
+            var result = _sut.NormaliseAgenticOutput(TwoCategories, "DOC-001");
+            Assert.Equal(new[] { "Revenue grew 10%.", "Costs reduced by 5%." }, result.Chunks[0].Propositions);
+            Assert.Equal(new[] { "Headcount stable.", "New office opened." }, result.Chunks[1].Propositions);
+        }
+
+        [Fact]
+        public void ValidJson_PropositionsCountMatchesPropositionCountField()
+        {
+            var result = _sut.NormaliseAgenticOutput(TwoCategories, "DOC-001");
+            foreach (var chunk in result.Chunks)
+                Assert.Equal(chunk.PropositionCount, chunk.Propositions.Count);
+        }
     }
 }

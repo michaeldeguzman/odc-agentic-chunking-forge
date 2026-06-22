@@ -40,7 +40,7 @@ src/AgenticChunkingLibrary/
 tests/AgenticChunkingLibrary.Tests/
     PreChunkForExtractionTests.cs       # 10 unit tests
     ParsePropositionsTests.cs           # 15 unit tests
-    NormaliseAgenticOutputTests.cs      # 18 unit tests
+    NormaliseAgenticOutputTests.cs      # 20 unit tests
     AgenticTestCasesTests.cs            # 44 tests driven from AgenticTestCases.json
     TestModels.cs                       # JSON deserialization records
     TestSuiteFixture.cs                 # IClassFixture loading AgenticTestCases.json
@@ -52,7 +52,7 @@ tests/AgenticTestCases.json             # Source of truth for test cases
 ## Build commands
 
 ```bash
-# Run all tests (87 total)
+# Run all tests (89 total)
 dotnet test
 
 # Build release

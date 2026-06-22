@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using OutSystems.ExternalLibraries.SDK;
 
 namespace AgenticChunkingLibrary.Models
@@ -14,6 +15,9 @@ namespace AgenticChunkingLibrary.Models
         [OSStructureField(Description = "The thematic category label assigned by the LLM")]
         public string ThematicCategory { get; set; }
 
+        [OSStructureField(Description = "The individual propositions that make up this chunk")]
+        public List<string> Propositions { get; set; }
+
         [OSStructureField(Description = "The merged proposition text for this chunk")]
         public string MergedContent { get; set; }
 
@@ -28,5 +32,8 @@ namespace AgenticChunkingLibrary.Models
 
         [OSStructureField(Description = "SHA256 hash of MergedContent for audit purposes")]
         public string Hash { get; set; }
+
+        [OSStructureField(Description = "True if this chunk represents a tag rather than a thematic content group")]
+        public bool IsTag { get; set; }
     }
 }
