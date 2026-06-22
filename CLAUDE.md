@@ -65,6 +65,29 @@ zip -j ../../AgenticChunkingLibrary.zip AgenticChunkingLibrary.dll AgenticChunki
 
 Upload `AgenticChunkingLibrary.zip` to ODC Portal → External Logic.
 
+## Push workflow
+
+This repo has two remotes:
+
+| Remote | Repository | Purpose |
+|--------|-----------|---------|
+| `origin` | `odc-agentic-chunking` | Development repo — includes all internal files |
+| `forge` | `odc-agentic-chunking-forge` | Public Forge repo — internal files excluded |
+
+**Normal development push** (includes `CLAUDE.md`, `scripts/`):
+```bash
+git push origin main
+```
+
+**Forge release push** (strips internal files, syncs the public repo):
+```bash
+bash scripts/push-forge.sh
+```
+
+The script creates a temporary branch from `main`, removes internal files (`CLAUDE.md`, `scripts/push-forge.sh`) from tracking, force-pushes to the `forge` remote, then deletes the temp branch. You always end up back on `main`.
+
+To add more files to the exclusion list, edit the `INTERNAL_FILES` array in `scripts/push-forge.sh`.
+
 ## ODC rules — non-negotiable
 
 These constraints come from the OutSystems External Libraries SDK. Breaking any of them produces an upload error.
