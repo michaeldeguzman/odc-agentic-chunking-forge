@@ -1,6 +1,6 @@
 # ODC Agentic Chunking Library
 
-[![CI](https://github.com/michaeldeguzman/odc-agentic-chunking/actions/workflows/ci.yml/badge.svg)](https://github.com/michaeldeguzman/odc-agentic-chunking/actions/workflows/ci.yml)
+[![CI](https://github.com/michaeldeguzman/odc-agentic-chunking-forge/actions/workflows/ci.yml/badge.svg)](https://github.com/michaeldeguzman/odc-agentic-chunking-forge/actions/workflows/ci.yml)
 
 An OutSystems ODC External Logic library that provides stateless text pre-processing and output normalisation for Level 5 Agentic Chunking workflows. It handles the C# work that sits on either side of your AI Gateway calls — splitting input text into safe batches, parsing proposition lists, and normalising grouped output into typed ODC structures.
 
@@ -95,7 +95,7 @@ The normalised output returned by `NormaliseAgenticOutput`.
 
 ## Installation
 
-Download the latest `AgenticChunkingLibrary.zip` from the [Releases](https://github.com/michaeldeguzman/odc-agentic-chunking/releases) page, then upload it to your ODC tenant:
+Download the latest `AgenticChunkingLibrary.zip` from the [Releases](https://github.com/michaeldeguzman/odc-agentic-chunking-forge/releases) page, then upload it to your ODC tenant:
 
 1. Open **ODC Portal**
 2. Go to **External Logic**
