@@ -101,7 +101,7 @@ These constraints come from the OutSystems External Libraries SDK. Breaking any 
 | Implementing class must have a public parameterless constructor | ODC instantiates it directly |
 | No static state | Calls are stateless; static fields would bleed between requests |
 | No async/await on interface methods | ODC does not support async actions |
-| Target framework: net8.0 | Required by ODC External Logic runtime |
+| Target framework: net10.0 | Required by ODC External Logic runtime |
 | DLLs must be at the root of the zip | `OS-ELG-MODL-05027` if inside a subdirectory |
 
 ## Known ODC upload error codes

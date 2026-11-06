@@ -108,7 +108,7 @@ The library exposes the `AgenticChunkingHelpers` interface. Reference it in your
 
 ## Building from source
 
-Requires [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8).
+Requires [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0).
 
 ```bash
 # Run all tests (89 total)
